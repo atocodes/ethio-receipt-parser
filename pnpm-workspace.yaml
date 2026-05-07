@@ -2,7 +2,11 @@ allowBuilds:
   '@prisma/client': true
   '@prisma/engines': true
   bufferutil: true
+  canvas: true
   es5-ext: true
+  esbuild: true
   prisma: true
+  protobufjs: true
   puppeteer: true
+  sharp: true
   utf-8-validate: true

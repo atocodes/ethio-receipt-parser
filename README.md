@@ -1,145 +1,62 @@
-# Ethiopian Payment Receipt Parser
+# ethio-receipt-parser
 
-A TypeScript-based receipt parser and extractor for Ethiopian payment providers.
+A modular TypeScript parser for Ethiopian banking and payment receipts.
 
-This project parses and extracts transaction/payment information from different Ethiopian banking and payment systems such as:
+`ethio-receipt-parser` helps developers extract structured transaction data from Ethiopian payment providers such as:
 
 - Bank of Abyssinia (BOA)
 - Commercial Bank of Ethiopia (CBE)
 - Telebirr
-- Awash Bank (WIP)
+- Awash Bank (work in progress)
 
-The goal of this project is to provide a unified and clean transaction parsing layer for Ethiopian digital payment receipts.
+Built for automation, fintech integrations, dashboards, bots, transaction verification systems, and internal tooling.
 
 ---
 
 # Features
 
-- Parse BOA receipt pages
-- Parse CBE receipt pages and PDFs
-- Parse Telebirr transaction receipts
-- Unified payment parser structure
-- Modular service architecture
-- Type-safe TypeScript implementation
-- Axios-based HTTP layer
-- Prisma support included
-- Easily extendable for new providers
-
----
-
-# Project Structure
-
-```txt
-.
-├── dist
-├── nodemon.json
-├── package.json
-├── pnpm-lock.yaml
-├── pnpm-workspace.yaml
-├── prisma
-│   └── schema.prisma
-├── prisma.config.ts
-├── result
-│   ├── css
-│   │   └── Style.css
-│   ├── images
-│   │   ├── bg.png
-│   │   ├── call.jpg
-│   │   ├── email.jpg
-│   │   ├── Ethiotelecom.jpg
-│   │   ├── facebook.jpg
-│   │   ├── sms.jpg
-│   │   ├── telebirr.png
-│   │   ├── telegram.jpg
-│   │   └── twitter.jpg
-│   ├── index.html
-│   └── js
-│       ├── html2pdf.bundle.min_1.js
-│       └── html2pdf.bundle.min.js
-├── src
-│   ├── core
-│   │   └── http
-│   │       └── axios.client.ts
-│   ├── generated
-│   ├── index.test.ts
-│   ├── index.ts
-│   ├── services
-│   │   ├── awash
-│   │   ├── boa
-│   │   │   ├── boa.client.ts
-│   │   │   ├── boa.parser.ts
-│   │   │   ├── boa.service.ts
-│   │   │   └── index.ts
-│   │   ├── cbe
-│   │   │   ├── cbe.client.ts
-│   │   │   ├── cbe.parser.ts
-│   │   │   ├── cbe.service.ts
-│   │   │   └── index.ts
-│   │   ├── index.ts
-│   │   └── telebirr
-│   │       ├── index.ts
-│   │       ├── telebirr.client.ts
-│   │       ├── telebirr.parser.ts
-│   │       └── telebirr.service.ts
-│   └── shared
-│       ├── conf.ts
-│       ├── payment.parser.ts
-│       ├── types.ts
-│       └── utils.ts
-└── tsconfig.json
-```
+- Unified receipt parsing API
+- Parse BOA receipt links
+- Parse CBE receipt pages/PDFs
+- Parse Telebirr receipts
+- Clean TypeScript architecture
+- Promise-based API
+- Modular provider system
+- Easily extendable
+- Built for real-world integrations
 
 ---
 
 # Installation
 
-## Clone the Repository
-
-```bash
-git clone <your-repository-url>
-cd <project-name>
-```
-
-## Install Dependencies
-
 Using pnpm:
 
 ```bash
-pnpm install
+pnpm add ethio-receipt-parser
+```
+
+Using npm:
+
+```bash
+npm install ethio-receipt-parser
+```
+
+Using yarn:
+
+```bash
+yarn add ethio-receipt-parser
 ```
 
 ---
 
-# Development
-
-Run development mode:
-
-```bash
-pnpm dev
-```
-
-Build project:
-
-```bash
-pnpm build
-```
-
-Run tests:
-
-```bash
-pnpm test
-```
-
----
-
-# Usage Example
+# Quick Start
 
 ```ts
 import {
   handleBoaReceipt,
   handleCbeReceipt,
   handleTelebirrReceipt,
-} from "./services";
+} from "ethio-receipt-parser";
 
 const run = async () => {
   const boa = await handleBoaReceipt(
@@ -164,45 +81,131 @@ run();
 
 ---
 
-# Current Provider Status
+# Example Output
 
-| Provider | Status                      |
-| -------- | --------------------------- |
-| BOA      | Working                     |
-| Telebirr | Working                     |
-| CBE      | Working (Under Maintenance) |
-| Awash    | In Progress                 |
+```json
+{
+  "provider": "BOA",
+  "payer": "BINIAM DERESE HAILU",
+  "account": "1******75",
+  "creditedPartyName": "MEKEDES DERESE HAILU",
+  "bankAccountNumber": "6*****04",
+  "amount": 82600,
+  "date": "14/02/25 12:59",
+  "reference": "FT250450L6BY24875",
+  "status": "SUCCESS"
+}
+```
 
 ---
 
-# Important Note About CBE Parser
+# Supported Providers
 
-The CBE parser is currently working, but it is still under maintenance for a more permanent and stable solution.
+| Provider | Status |
+|---|---|
+| BOA | Stable |
+| Telebirr | Stable |
+| CBE | Working (Under Maintenance) |
+| Awash | In Progress |
 
-At the moment, the parser depends on hardcoded request values such as:
+---
+
+# Important Note About CBE
+
+The CBE parser is currently working, but it is still under maintenance for a more permanent and reliable solution.
+
+At the moment, CBE parsing depends on request-specific values such as:
 
 - `x-app-id`
 - client keys
-- request headers/tokens
+- internal request headers
+- validation tokens
 
-As the developer, I personally do not believe this is the proper long-term solution because these values may change at any time from CBE's side.
+These values are currently hardcoded internally.
 
-If you encounter issues specifically with the CBE parser, the first thing you should investigate is:
+As the developer, I do not consider this a reliable long-term approach because CBE may change these values at any time.
 
-- expired or changed `x-app-id`
-- modified client keys
-- updated request headers
-- changed API validation rules
+If the CBE parser suddenly stops working, the first thing to inspect is:
 
-Most CBE-related failures will likely originate from those values changing.
+- changed `x-app-id`
+- expired client keys
+- modified request headers
+- updated request validation rules
 
-A better dynamic solution is currently being researched.
+Most CBE-related issues will likely originate from those changes.
+
+A better dynamic extraction system is currently being researched.
+
+---
+
+# API
+
+## BOA
+
+```ts
+handleBoaReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleBoaReceipt(receiptUrl);
+```
+
+---
+
+## CBE
+
+```ts
+handleCbeReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleCbeReceipt(receiptUrl);
+```
+
+---
+
+## Telebirr
+
+```ts
+handleTelebirrReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleTelebirrReceipt(receiptUrl);
+```
+
+---
+
+# Project Structure
+
+```txt
+src
+├── core
+│   └── http
+│       └── axios.client.ts
+├── services
+│   ├── boa
+│   ├── cbe
+│   ├── telebirr
+│   └── awash
+├── shared
+│   ├── payment.parser.ts
+│   ├── types.ts
+│   └── utils.ts
+└── index.ts
+```
 
 ---
 
 # Architecture
 
-Each provider follows a modular structure:
+Each provider follows the same structure:
 
 ```txt
 provider/
@@ -214,54 +217,95 @@ provider/
 
 ## Responsibilities
 
-| File    | Responsibility      |
-| ------- | ------------------- |
-| client  | HTTP/network layer  |
-| parser  | Raw receipt parsing |
-| service | Business logic      |
-| index   | Exports             |
+| File | Purpose |
+|---|---|
+| `client` | Handles HTTP requests |
+| `parser` | Extracts receipt data |
+| `service` | Main business logic |
+| `index` | Exports module APIs |
 
 ---
 
-# Tech Stack
+# Development
 
-- TypeScript
-- Node.js
-- Axios
-- Prisma
-- pnpm
+## Clone Repository
+
+```bash
+git clone <repo-url>
+```
+
+## Install Dependencies
+
+```bash
+pnpm install
+```
+
+## Run Development Mode
+
+```bash
+pnpm dev
+```
+
+## Build
+
+```bash
+pnpm build
+```
+
+## Test
+
+```bash
+pnpm test
+```
 
 ---
 
-# Goals
+# Use Cases
 
-- Create a unified Ethiopian payment parser ecosystem
-- Support more Ethiopian banks
-- Improve parser reliability
-- Reduce provider-specific hacks
-- Provide developer-friendly APIs
+- Telegram bots
+- Payment verification systems
+- Fintech apps
+- Internal dashboards
+- Accounting automation
+- Transaction extraction pipelines
+- Mobile app backends
 
 ---
 
-# Disclaimer
+# Roadmap
 
-This project is intended for educational, automation, and interoperability purposes.
-
-Bank providers may change their systems, APIs, HTML structures, or security rules at any time, which can affect parser stability.
+- Better CBE dynamic request handling
+- Awash Bank support
+- Dashen Bank support
+- OCR support for screenshots/images
+- PDF receipt parsing improvements
+- Automatic provider detection
+- Webhook-ready integrations
 
 ---
 
 # Contributing
 
-Contributions, fixes, and provider improvements are welcome.
+Contributions are welcome.
 
-Especially helpful contributions:
+Especially useful contributions include:
 
 - additional bank support
 - parser stability improvements
-- dynamic token extraction
-- test cases
-- receipt samples
+- token extraction research
+- test receipt samples
+- TypeScript improvements
+- better error handling
+
+---
+
+# Disclaimer
+
+This package is not affiliated with any Ethiopian bank or payment provider.
+
+Banks may update their APIs, security systems, HTML structure, or validation methods at any time, which may temporarily affect parser stability.
+
+Use responsibly.
 
 ---
 
