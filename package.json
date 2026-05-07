@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "test": "tsx ./src/index.test.ts",
     "build": "tsc",
-    "publish:npm": "tsc cp README.npm.md README.md && npm publish && git checkout README.md"
+    "publish:npm": "tsc && cp README.npm.md README.md && npm publish && git checkout README.md"
   },
   "files": [
     "dist"
