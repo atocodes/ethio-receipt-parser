@@ -1,0 +1,62 @@
+{
+  "name": "ethio-receipt-parser",
+  "version": "1.0.0",
+  "description": "A TypeScript-based Ethiopian payment receipt parser for BOA, CBE, Telebirr, and other providers.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "test": "tsx ./src/index.test.ts",
+    "build": "tsc",
+    "publish:npm": "cp README.npm.md README.md && npm publish && git checkout README.md"
+  },
+  "keywords": [
+    "ethiopia",
+    "payment",
+    "parser",
+    "boa",
+    "cbe",
+    "telebirr",
+    "bank",
+    "receipt",
+    "fintech",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Ato Codes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atocodes/ethio-receipt-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atocodes/ethio-receipt-parser/issues"
+  },
+  "homepage": "https://github.com/atocodes/ethio-receipt-parser#readme",
+  "packageManager": "pnpm@10.33.2",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.3",
+    "@types/website-scraper": "^1.2.11",
+    "dotenv": "^17.4.2",
+    "nodemon": "^3.1.14",
+    "prisma": "^5.11.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@jvhaile/cbe-verifier": "^1.0.7",
+    "@prisma/client": "^5.11.0",
+    "@telegraf/session": "2.0.0-beta.7",
+    "@telegraf/types": "7.1.0",
+    "@types/pdf-parse": "^1.1.5",
+    "axios": "^1.15.2",
+    "cheerio": "^1.2.0",
+    "https-proxy-agent": "^9.0.0",
+    "pdf-parse": "^2.4.5",
+    "playwright": "^1.59.1",
+    "puppeteer-core": "^24.42.0",
+    "telegraf": "^4.16.3",
+    "telegram": "2.20.2",
+    "website-scraper": "^6.0.0"
+  }
+}
