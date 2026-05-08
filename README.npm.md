@@ -7,7 +7,7 @@ A modular TypeScript parser for Ethiopian banking and payment receipts.
 - Bank of Abyssinia (BOA)
 - Commercial Bank of Ethiopia (CBE)
 - Telebirr
-- Awash Bank (work in progress)
+- Awash Bank
 
 Built for automation, fintech integrations, dashboards, bots, transaction verification systems, and internal tooling.
 
@@ -19,6 +19,7 @@ Built for automation, fintech integrations, dashboards, bots, transaction verifi
 - Parse BOA receipt links
 - Parse CBE receipt pages/PDFs
 - Parse Telebirr receipts
+- Parse Awash Bank receipts
 - Clean TypeScript architecture
 - Promise-based API
 - Modular provider system
@@ -56,24 +57,28 @@ import {
   handleBoaReceipt,
   handleCbeReceipt,
   handleTelebirrReceipt,
+  handleAwashReceipt,
 } from "ethio-receipt-parser";
 
 const run = async () => {
   const boa = await handleBoaReceipt(
-    "https://cs.bankofabyssinia.com/slip/?trx=XXXX"
+    "https://cs.bankofabyssinia.com/slip/?trx=XXXX",
   );
 
-  const cbe = await handleCbeReceipt(
-    "https://apps.cbe.com.et:100/?id=XXXX"
-  );
+  const cbe = await handleCbeReceipt("https://apps.cbe.com.et:100/?id=XXXX");
 
   const telebirr = await handleTelebirrReceipt(
-    "https://transactioninfo.ethiotelecom.et/receipt/XXXX"
+    "https://transactioninfo.ethiotelecom.et/receipt/XXXX",
+  );
+
+  const awash = await handleAwashReceipt(
+    "https://awashbank.com/receipt?id=XXXX",
   );
 
   console.log(boa);
   console.log(cbe);
   console.log(telebirr);
+  console.log(awash);
 };
 
 run();
@@ -86,13 +91,13 @@ run();
 ```json
 {
   "provider": "BOA",
-  "payer": "BINIAM DERESE HAILU",
-  "account": "1******75",
-  "creditedPartyName": "MEKEDES DERESE HAILU",
-  "bankAccountNumber": "6*****04",
-  "amount": 82600,
-  "date": "14/02/25 12:59",
-  "reference": "FT250450L6BY24875",
+  "payer": "ABEL TESFAYE DEMEKE",
+  "account": "2******91",
+  "creditedPartyName": "SELAMAWIT KASSA BERHANE",
+  "bankAccountNumber": "7*****38",
+  "amount": 54320,
+  "date": "18/03/25 10:42",
+  "reference": "FT259871KLMQ43210",
   "status": "SUCCESS"
 }
 ```
@@ -101,12 +106,12 @@ run();
 
 # Supported Providers
 
-| Provider | Status |
-|---|---|
-| BOA | Stable |
-| Telebirr | Stable |
-| CBE | Working (Under Maintenance) |
-| Awash | In Progress |
+| Provider | Status                      |
+| -------- | --------------------------- |
+| BOA      | Stable                      |
+| Telebirr | Stable                      |
+| CBE      | Working (Under Maintenance) |
+| Awash    | Stable                      |
 
 ---
 
@@ -182,6 +187,22 @@ const result = await handleTelebirrReceipt(receiptUrl);
 
 ---
 
+---
+
+## Awash
+
+```ts
+handleAwashReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleAwashReceipt(receiptUrl);
+```
+
+---
+
 # Project Structure
 
 ```txt
@@ -217,12 +238,12 @@ provider/
 
 ## Responsibilities
 
-| File | Purpose |
-|---|---|
-| `client` | Handles HTTP requests |
-| `parser` | Extracts receipt data |
-| `service` | Main business logic |
-| `index` | Exports module APIs |
+| File      | Purpose               |
+| --------- | --------------------- |
+| `client`  | Handles HTTP requests |
+| `parser`  | Extracts receipt data |
+| `service` | Main business logic   |
+| `index`   | Exports module APIs   |
 
 ---
 
