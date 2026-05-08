@@ -1,5 +1,20 @@
 import { PaymentInfo } from "../../shared/types";
 
+const parseBoaDate = (value: string): Date => {
+  const [datePart, timePart] = value.split(" ");
+
+  const [day, month, year] = datePart!.split("/");
+  const [hour, minute] = timePart!.split(":");
+
+  return new Date(
+    Number(`20${year}`),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(minute),
+  );
+};
+
 export function parseBoaReceipt(data: any): PaymentInfo {
   const receipt = data?.body?.[0];
 
@@ -18,7 +33,7 @@ export function parseBoaReceipt(data: any): PaymentInfo {
 
     Amount: parseFloat(receipt["Transferred Amount"] || "0"),
 
-    Date: new Date(receipt["Transaction Date"]) || new Date(),
+    Date: parseBoaDate(receipt["Transaction Date"]),
 
     Reference: receipt["Transaction Reference"] || "",
 
