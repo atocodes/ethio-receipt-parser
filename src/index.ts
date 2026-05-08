@@ -2,5 +2,6 @@ export {
   handleBoaReceipt,
   handleCbeReceipt,
   handleTelebirrReciept,
-  handleAwashReciept
+  handleAwashReciept,
 } from "./services";
+export { PaymentInfo } from "./shared/types";
