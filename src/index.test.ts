@@ -41,11 +41,11 @@ const runTests = async () => {
 
     console.log("\n============= Awash =============");
 
-    const res = await handleAwashReciept(
+    const awash = await handleAwashReciept(
       AWASH_RECEIPT
     );
 
-    console.dir(telebirr, { depth: null });
+    console.dir(awash, { depth: null });
 
     console.log("\n ✅ All receipt parsers executed successfully.");
   } catch (error) {
