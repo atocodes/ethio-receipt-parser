@@ -2,13 +2,15 @@ import {
   handleBoaReceipt,
   handleCbeReceipt,
   handleTelebirrReciept,
+  handleAwashReciept,
 } from "./services";
+import { AWASH_RECEIPT,  BOA_RECEIPT,  CBE_PDF_RECEIPT, CBE_RECEIPT, TELEBIRR_RECEIPT } from "./shared/conf";
 
 const runTests = async () => {
   try {
     console.log("============= BOA =============");
     const boa = await handleBoaReceipt(
-      "https://cs.bankofabyssinia.com/slip/?trx=FT250450L6BY24875",
+      BOA_RECEIPT
     );
 
     console.dir(boa, { depth: null });
@@ -16,15 +18,15 @@ const runTests = async () => {
     console.log("\n============= CBE PDF =============");
 
     const cbePdf = await handleCbeReceipt(
-      "https://apps.cbe.com.et:100/?id=FT261268S07T60380118",
+      CBE_PDF_RECEIPT
     );
 
     console.dir(cbePdf, { depth: null });
 
-    console.log("\n============= CBE JSON =============");
+    console.log("\n============= CBE WEB =============");
 
     const cbeJson = await handleCbeReceipt(
-      "https://mbreciept.cbe.com.et/FT26119YLRPV-16432426",
+      CBE_RECEIPT
     );
 
     console.dir(cbeJson, { depth: null });
@@ -32,7 +34,15 @@ const runTests = async () => {
     console.log("\n============= Telebirr =============");
 
     const telebirr = await handleTelebirrReciept(
-      "https://transactioninfo.ethiotelecom.et/receipt/DA28H8CPHE",
+      TELEBIRR_RECEIPT
+    );
+
+    console.dir(telebirr, { depth: null });
+
+    console.log("\n============= Awash =============");
+
+    const res = await handleAwashReciept(
+      AWASH_RECEIPT
     );
 
     console.dir(telebirr, { depth: null });
@@ -44,5 +54,4 @@ const runTests = async () => {
   }
 };
 
-
-runTests()
+runTests();
