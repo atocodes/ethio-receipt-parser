@@ -18,7 +18,7 @@ export function parseBoaReceipt(data: any): PaymentInfo {
 
     Amount: parseFloat(receipt["Transferred Amount"] || "0"),
 
-    Date: receipt["Transaction Date"] || "",
+    Date: new Date(receipt["Transaction Date"]) || new Date(),
 
     Reference: receipt["Transaction Reference"] || "",
 

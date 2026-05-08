@@ -81,7 +81,9 @@ function parseFromJson(data: any): PaymentInfo {
     Amount: parseFloat(data.amountCredited || "0"),
 
     Date:
-      data.dateTimes?.[0] || data.processingDate || data.debitValueDate || "",
+      new Date(
+        data.dateTimes?.[0] || data.processingDate || data.debitValueDate,
+      ) || new Date(),
 
     Reference: data.id || data.debitTheirRef || data.creditTheirRef || "",
 
