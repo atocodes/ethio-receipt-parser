@@ -72,7 +72,7 @@ const run = async () => {
   );
 
   const awash = await handleAwashReceipt(
-    "https://awashpay.awashbank.com:8225/XXXX",
+    "https://awashbank.com/receipt?id=XXXX",
   );
 
   console.log(boa);
@@ -115,94 +115,110 @@ run();
 
 ---
 
-# Environment Variables (.env.example)
-
-These environment variables are **only intended for testing and development purposes**.
-They are useful for quick local experiments, automation scripts, and debugging.
-
-⚠️ **These environment variables are intended for testing purposes only and should not be used in production environments.**
-
-Create a `.env` file based on the example below:
-
-```env
-# Telebirr receipt link (testing only)
-TELEBIRR_RECEIPT="https://transactioninfo.ethiotelecom.et/receipt/XXXXXXXXXX"
-
-# Awash Bank receipt link (testing only)
-AWASH_RECEIPT="https://awashpay.awashbank.com:8225/XXXXXXXXXXXX"
-
-# Bank of Abyssinia receipt link (testing only)
-BOA_RECEIPT="https://cs.bankofabyssinia.com/slip/?trx=XXXXXXXXXXXX"
-
-# Commercial Bank of Ethiopia (CBE) receipt page (testing only)
-CBE_RECEIPT="https://apps.cbe.com.et:100/?id=XXXXXXXXXXXX"
-
-# CBE PDF receipt link (testing only)
-CBE_PDF_RECEIPT="https://mbreciept.cbe.com.et/XXXXXXXXXXXX"
-```
-
----
-
-## Usage with `.env`
-
-```ts
-import {
-  handleBoaReceipt,
-  handleCbeReceipt,
-  handleTelebirrReceipt,
-  handleAwashReceipt,
-} from "ethio-receipt-parser";
-
-const run = async () => {
-  const boa = await handleBoaReceipt(process.env.BOA_RECEIPT!);
-  const cbe = await handleCbeReceipt(process.env.CBE_RECEIPT!);
-  const telebirr = await handleTelebirrReceipt(process.env.TELEBIRR_RECEIPT!);
-  const awash = await handleAwashReceipt(process.env.AWASH_RECEIPT!);
-
-  console.log({ boa, cbe, telebirr, awash });
-};
-
-run();
-```
-
----
-
 # Important Note About CBE
 
-The CBE parser is currently working, but still under maintenance for a more stable long-term solution.
+The CBE parser is currently working, but it is still under maintenance for a more permanent and reliable solution.
 
-It depends on internal request values such as:
+At the moment, CBE parsing depends on request-specific values such as:
 
 - `x-app-id`
 - client keys
-- request headers
+- internal request headers
 - validation tokens
 
 These values are currently hardcoded internally.
 
-If issues occur, check:
+As the developer, I do not consider this a reliable long-term approach because CBE may change these values at any time.
+
+If the CBE parser suddenly stops working, the first thing to inspect is:
 
 - changed `x-app-id`
 - expired client keys
-- modified headers
-- updated validation rules
+- modified request headers
+- updated request validation rules
 
-A dynamic extraction system is being researched.
+Most CBE-related issues will likely originate from those changes.
+
+A better dynamic extraction system is currently being researched.
+
+---
+
+# API
+
+## BOA
+
+```ts
+handleBoaReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleBoaReceipt(receiptUrl);
+```
+
+---
+
+## CBE
+
+```ts
+handleCbeReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleCbeReceipt(receiptUrl);
+```
+
+---
+
+## Telebirr
+
+```ts
+handleTelebirrReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleTelebirrReceipt(receiptUrl);
+```
+
+---
+
+---
+
+## Awash
+
+```ts
+handleAwashReceipt(url: string)
+```
+
+### Example
+
+```ts
+const result = await handleAwashReceipt(receiptUrl);
+```
 
 ---
 
 # Project Structure
 
 ```txt
-src/
-├── core/
-│   └── http/
-├── services/
-│   ├── boa/
-│   ├── cbe/
-│   ├── telebirr/
-│   ├── awash/
-├── shared/
+src
+├── core
+│   └── http
+│       └── axios.client.ts
+├── services
+│   ├── boa
+│   ├── cbe
+│   ├── telebirr
+│   └── awash
+├── shared
+│   ├── payment.parser.ts
+│   ├── types.ts
+│   └── utils.ts
 └── index.ts
 ```
 
@@ -210,7 +226,7 @@ src/
 
 # Architecture
 
-Each provider follows this structure:
+Each provider follows the same structure:
 
 ```txt
 provider/
@@ -220,22 +236,46 @@ provider/
 └── index.ts
 ```
 
-| File    | Purpose              |
-| ------- | -------------------- |
-| client  | HTTP requests        |
-| parser  | Extract receipt data |
-| service | Business logic       |
-| index   | Exports API          |
+## Responsibilities
+
+| File      | Purpose               |
+| --------- | --------------------- |
+| `client`  | Handles HTTP requests |
+| `parser`  | Extracts receipt data |
+| `service` | Main business logic   |
+| `index`   | Exports module APIs   |
 
 ---
 
 # Development
 
+## Clone Repository
+
 ```bash
 git clone <repo-url>
+```
+
+## Install Dependencies
+
+```bash
 pnpm install
+```
+
+## Run Development Mode
+
+```bash
 pnpm dev
+```
+
+## Build
+
+```bash
 pnpm build
+```
+
+## Test
+
+```bash
 pnpm test
 ```
 
@@ -244,42 +284,49 @@ pnpm test
 # Use Cases
 
 - Telegram bots
-- Fintech apps
 - Payment verification systems
+- Fintech apps
+- Internal dashboards
 - Accounting automation
-- Dashboards
-- Transaction pipelines
+- Transaction extraction pipelines
+- Mobile app backends
 
 ---
 
 # Roadmap
 
-- Improve CBE stability
-- Enhance Awash parsing edge cases
+- Better CBE dynamic request handling
+- Awash Bank support
 - Dashen Bank support
-- OCR receipt parsing
-- Auto provider detection
-- Webhook integrations
+- OCR support for screenshots/images
+- PDF receipt parsing improvements
+- Automatic provider detection
+- Webhook-ready integrations
 
 ---
 
 # Contributing
 
-Contributions are welcome:
+Contributions are welcome.
 
-- Add new banks
-- Improve parsers
-- Add test cases
-- Improve TypeScript types
-- Fix edge cases
+Especially useful contributions include:
+
+- additional bank support
+- parser stability improvements
+- token extraction research
+- test receipt samples
+- TypeScript improvements
+- better error handling
 
 ---
 
 # Disclaimer
 
-This project is not affiliated with any Ethiopian bank or payment provider.
+This package is not affiliated with any Ethiopian bank or payment provider.
 
-Bank systems may change without notice, which can temporarily break parsing.
+Banks may update their APIs, security systems, HTML structure, or validation methods at any time, which may temporarily affect parser stability.
+
+Use responsibly.
 
 ---
 
