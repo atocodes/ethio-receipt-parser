@@ -30,11 +30,11 @@ export const parseAwashReceipt = (html: string): PaymentInfo => {
 
   const beneficiaryName =
     get("Beneficiary name") == ""
-      ? get("Sender Name")
+      ? get("Receiver Name")
       : get("Beneficiary name");
   const beneficiaryAccount =
     get("Beneficiary Account") == ""
-      ? get("Sender Account")
+      ? get("Receiver Account")
       : get("Beneficiary Account");
 
   const transactionId = get("Transaction ID");
