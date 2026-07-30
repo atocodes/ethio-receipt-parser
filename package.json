@@ -50,6 +50,7 @@
     "@types/pdf-parse": "^1.1.5",
     "axios": "^1.16.0",
     "cheerio": "^1.2.0",
+    "date-fns": "^4.4.0",
     "https-proxy-agent": "^9.0.0",
     "pdf-parse": "^2.4.5",
     "playwright": "^1.59.1",

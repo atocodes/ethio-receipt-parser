@@ -17,6 +17,9 @@ importers:
       cheerio:
         specifier: ^1.2.0
         version: 1.2.0
+      date-fns:
+        specifier: ^4.4.0
+        version: 4.4.0
       https-proxy-agent:
         specifier: ^9.0.0
         version: 9.0.0
@@ -446,6 +449,9 @@ packages:
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
     engines: {node: '>= 6'}
+
+  date-fns@4.4.0:
+    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -1195,6 +1201,8 @@ snapshots:
   css-url-parser@1.1.4: {}
 
   css-what@6.2.2: {}
+
+  date-fns@4.4.0: {}
 
   debug@4.4.3(supports-color@5.5.0):
     dependencies:

@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { PaymentInfo } from "../../shared/types";
 import { parseBirr, removeAmharcChars } from "../../shared/utils";
+import { parse } from "date-fns";
 
 const info: Record<string, any> = {
   "Payer Name": "",
@@ -25,14 +26,12 @@ export const parseTelebirrReciept = (html: any): PaymentInfo => {
     }
   });
 
-
   const val = $("td:contains('Total Paid Amount')").next("td").text();
   $("tr").each((_, row) => {
     const tds = $(row).find("td");
 
     if (tds.length === 3) {
       const maybeDate = tds.eq(1).text().trim();
-
       // simple check: looks like date
       if (maybeDate.match(/\d{2}-\d{2}-\d{4}/)) {
         info["Payment date"] = maybeDate;
@@ -43,7 +42,7 @@ export const parseTelebirrReciept = (html: any): PaymentInfo => {
   const d = new Date(info["Payment date"]);
   return {
     Amount: parseBirr(val),
-    Date: new Date(info["Payment date"]),
+    Date: parse(info["Payment date"], "dd-MM-yyyy HH:mm:ss", new Date()) ?? d,
     Account: info["Credited party account no"],
     BankAccountNumber: info["Bank account number"],
     CreaditedPartyName: info["Credited Party name"],
