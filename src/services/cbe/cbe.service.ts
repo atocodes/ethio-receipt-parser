@@ -10,7 +10,11 @@ export const handleCbeReceipt = async (url: string) => {
   if (url.includes(pdfBaseUrl)) {
     const parser = new PDFParse({ url });
     const result = await parser.getText();
-    return { ...parseCbePdf(result.text), ReceiptUrl: url } as PaymentInfo;
+    return {
+      ...parseCbePdf(result.text),
+      ReceiptUrl: url,
+      Reference: url.slice(pdfBaseUrl.length),
+    } as PaymentInfo;
   }
 
   if (url.includes(webBaseUrl)) {
@@ -19,6 +23,7 @@ export const handleCbeReceipt = async (url: string) => {
     return {
       ...parseCbeJson(res),
       ReceiptUrl: url,
+      Reference: url.slice(webBaseUrl.length),
     } as PaymentInfo;
   }
 

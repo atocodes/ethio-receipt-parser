@@ -7,5 +7,6 @@ export const handleTelebirrReciept = async (url: string) => {
   return {
     ...parseTelebirrReciept(data),
     ReceiptUrl: url,
+    Reference: url.slice(baseURL.length),
   };
 };

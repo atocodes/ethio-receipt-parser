@@ -9,5 +9,6 @@ export const handleAwashReciept = async (url: string) => {
   return {
     ...parseAwashReceipt(res),
     ReceiptUrl: url,
+    Reference: url.slice(baseUrl.length),
   } as PaymentInfo;
 };

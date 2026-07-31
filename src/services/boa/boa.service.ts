@@ -10,5 +10,6 @@ export const handleBoaReceipt = async (url: string) => {
   return {
     ...parseBoaReceipt(res),
     ReceiptUrl: url,
+    Reference: url.slice(baseUrl.length),
   } as PaymentInfo;
 };
