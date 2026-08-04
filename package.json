@@ -1,6 +1,6 @@
 {
   "name": "ethio-receipt-parser",
-  "version": "1.1.11",
+  "version": "2.0.0",
   "description": "A TypeScript-based Ethiopian payment receipt parser for BOA, CBE, Telebirr, and other providers.",
   "main": "dist/index.js",
   "scripts": {
@@ -8,6 +8,28 @@
     "test": "tsx ./src/index.test.ts",
     "build": "tsc",
     "publish:npm": "tsc && cp README.npm.md README.md && npm publish && git checkout README.md"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./telebirr": {
+      "types": "./dist/telebirr.d.ts",
+      "default": "./dist/telebirr.js"
+    },
+    "./cbe": {
+      "types": "./dist/cbe.d.ts",
+      "default": "./dist/cbe.js"
+    },
+    "./boa": {
+      "types": "./dist/boa.d.ts",
+      "default": "./dist/boa.js"
+    },
+    "./awash": {
+      "types": "./dist/awash.d.ts",
+      "default": "./dist/awash.js"
+    }
   },
   "files": [
     "dist"

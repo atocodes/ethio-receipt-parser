@@ -1,5 +1,4 @@
 import { parseCbeJson, parseCbePdf } from "./cbe.parser";
-import { PDFParse } from "pdf-parse";
 import { fetchCbeTransaction } from "./cbe.client";
 import { PaymentInfo } from "../../shared/types";
 
@@ -8,6 +7,7 @@ const webBaseUrl = "https://mbreciept.cbe.com.et/";
 
 export const handleCbeReceipt = async (url: string) => {
   if (url.includes(pdfBaseUrl)) {
+    const { PDFParse } = await import("pdf-parse");
     const parser = new PDFParse({ url });
     const result = await parser.getText();
     return {

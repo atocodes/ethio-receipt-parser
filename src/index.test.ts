@@ -1,9 +1,5 @@
-import {
-  handleBoaReceipt,
-  handleCbeReceipt,
-  handleTelebirrReciept,
-  handleAwashReciept,
-} from "./services";
+
+import { handleAwashReciept, handleBoaReceipt, handleCbeReceipt, handleTelebirrReciept } from ".";
 import { AWASH_RECEIPT,  BOA_RECEIPT,  CBE_PDF_RECEIPT, CBE_RECEIPT, TELEBIRR_RECEIPT } from "./shared/conf";
 
 const runTests = async () => {
